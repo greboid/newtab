@@ -6,16 +6,15 @@ import (
 	"image"
 	"image/png"
 	"io/fs"
-	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/blang/vfs/memfs"
+	"github.com/psanford/memfs"
 	"github.com/chai2010/webp"
 	"github.com/nfnt/resize"
 )
 
-func createThumbnails(imagefs embed.FS, mfs *memfs.MemFS) error {
+func createThumbnails(imagefs embed.FS, mfs *memfs.FS) error {
 	err := fs.WalkDir(imagefs, ".", func(path string, f fs.DirEntry, err error) error {
 		if !f.IsDir() {
 			err = createThumbnail(f.Name(), imagefs, mfs)
@@ -31,7 +30,7 @@ func createThumbnails(imagefs embed.FS, mfs *memfs.MemFS) error {
 	return nil
 }
 
-func createThumbnail(filename string, imagefs embed.FS, mfs *memfs.MemFS) error {
+func createThumbnail(filename string, imagefs embed.FS, mfs *memfs.FS) error {
 	var buf bytes.Buffer
 	var m image.Image
 	var data []byte
@@ -51,11 +50,7 @@ func createThumbnail(filename string, imagefs embed.FS, mfs *memfs.MemFS) error 
 	if err != nil {
 		return err
 	}
-	f, err := mfs.OpenFile(filepath.Base(filename)+".webp", os.O_CREATE|os.O_RDWR, 0666)
-	if err != nil {
-		return err
-	}
-	_, err = f.Write(buf.Bytes())
+	err = mfs.WriteFile(filepath.Base(filename)+".webp", buf.Bytes(), 0666)
 	if err != nil {
 		return err
 	}
@@ -63,11 +58,7 @@ func createThumbnail(filename string, imagefs embed.FS, mfs *memfs.MemFS) error 
 	if err != nil {
 		return err
 	}
-	f, err = mfs.OpenFile(strings.TrimSuffix(filename, filepath.Ext(filename))+filepath.Ext(filename), os.O_CREATE|os.O_RDWR, 0666)
-	if err != nil {
-		return err
-	}
-	_, err = f.Write(buf.Bytes())
+	err = mfs.WriteFile(strings.TrimSuffix(filename, filepath.Ext(filename))+filepath.Ext(filename), buf.Bytes(), 0666)
 	if err != nil {
 		return err
 	}

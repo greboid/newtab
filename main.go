@@ -4,11 +4,11 @@ import (
 	"context"
 	"embed"
 	_ "embed"
-	"fmt"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
@@ -16,8 +16,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/acoshift/middleware"
-	"github.com/blang/vfs/memfs"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	"github.com/psanford/memfs"
 )
 
 //go:embed images
@@ -26,30 +27,28 @@ var imagefs embed.FS
 //go:embed static
 var staticfs embed.FS
 
-var mfs = memfs.Create()
+var mfs = memfs.New()
 
 func main() {
 	err := createThumbnails(imagefs, mfs)
 	if err != nil {
 		log.Fatalf("Error: %s", err)
 	}
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/css", cssHandler)
-	mux.HandleFunc("/favicon", faviconHandler)
-	mux.HandleFunc("/thumbnails/", thumbnailHandler)
-
-	h := middleware.Chain(
-		requestLogger(),
-		middleware.Compress(middleware.DeflateCompressor),
-		middleware.Compress(middleware.GzipCompressor),
-		middleware.Compress(middleware.BrCompressor),
-	)(mux)
+	staticFiles, err := fs.Sub(staticfs, "static")
+	if err != nil {
+		log.Fatalf("Error: %s", err)
+	}
+	router := mux.NewRouter()
+	router.Use(handlers.ProxyHeaders)
+	router.Use(handlers.CompressHandler)
+	router.Use(NewLoggingHandler(os.Stdout))
+	router.PathPrefix("/thumbnails/").Handler(thumbnailHandler(http.StripPrefix("/thumbnails/", http.FileServer(http.FS(mfs)))))
+	router.PathPrefix("/").Handler(http.FileServer(http.FS(staticFiles)))
 
 	log.Print("Starting server.")
 	server := http.Server{
 		Addr:    ":8080",
-		Handler: h,
+		Handler: router,
 	}
 	go func() {
 		_ = server.ListenAndServe()
@@ -65,68 +64,22 @@ func main() {
 	log.Print("Finishing server.")
 }
 
-func indexHandler(writer http.ResponseWriter, request *http.Request) {
-	if request.URL.Path == "/" {
-		fileServerHandler(writer, request, "static/index.html", "text/html; charset=utf-8")
-	} else {
-		writer.WriteHeader(http.StatusNotFound)
-	}
-}
-
-func cssHandler(writer http.ResponseWriter, request *http.Request) {
-	fileServerHandler(writer, request, "static/main.css", "text/css; charset=utf-8")
-}
-
-func faviconHandler(writer http.ResponseWriter, request *http.Request) {
-	fileServerHandler(writer, request, "static/favicon.ico", "image/x-icon; charset=utf-8")
-}
-
-func fileServerHandler(writer http.ResponseWriter, _ *http.Request, filename string, contentType string) {
-	data, err := staticfs.ReadFile(filename)
-	if err != nil {
-		writer.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-	writer.Header().Set("Content-Type", contentType)
-	_, _ = writer.Write(data)
-}
-
-func thumbnailHandler(writer http.ResponseWriter, request *http.Request) {
-	if strings.Contains(request.Header.Get("Accept"), "image/webp") {
-		webp := request.URL.Path + ".webp"
-		_, err := mfs.Stat(fmt.Sprintf("./%s", webp))
-		if err == nil {
-			request.URL.Path = webp
-		}
-	}
-	request.URL.Path = strings.TrimPrefix(request.URL.Path, "/thumbnails/")
-	f, err := mfs.OpenFile(request.URL.Path, os.O_RDWR, 0666)
-	if err != nil {
-		writer.WriteHeader(http.StatusNotFound)
-		_, _ = writer.Write([]byte("thumbnail not found"))
-		return
-	}
-	bytes, err := io.ReadAll(f)
-	if err != nil {
-		writer.WriteHeader(http.StatusInternalServerError)
-		_, _ = writer.Write([]byte("error reading thumbnail"))
-		return
-	}
-	_, _ = writer.Write(bytes)
-
-}
-
-func requestLogger() middleware.Middleware {
+func NewLoggingHandler(dst io.Writer) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			requesterIP := r.RemoteAddr
-			log.Printf(
-				"%s\t\t%s\t\t%s\t",
-				requesterIP,
-				r.Method,
-				r.RequestURI,
-			)
-			h.ServeHTTP(w, r)
-		})
+		return handlers.LoggingHandler(dst, h)
 	}
+}
+
+func thumbnailHandler(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		log.Printf("Path: %s", request.URL.Path)
+		if strings.Contains(request.Header.Get("Accept"), "image/webp") {
+			webp := request.URL.Path + ".webp"
+			_, err := mfs.Open(strings.TrimPrefix(webp, "/thumbnails/"))
+			if err == nil {
+				request.URL.Path = webp
+			}
+		}
+		next.ServeHTTP(writer, request)
+	})
 }
