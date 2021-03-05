@@ -72,7 +72,6 @@ func NewLoggingHandler(dst io.Writer) func(http.Handler) http.Handler {
 
 func thumbnailHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		log.Printf("Path: %s", request.URL.Path)
 		if strings.Contains(request.Header.Get("Accept"), "image/webp") {
 			webp := request.URL.Path + ".webp"
 			_, err := mfs.Open(strings.TrimPrefix(webp, "/thumbnails/"))
