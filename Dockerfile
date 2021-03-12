@@ -10,6 +10,6 @@ RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o mai
 
 FROM scratch
 WORKDIR /app
-COPY --from=builder /app/main /app
+COPY --from=builder /app/main /newtab-site
 EXPOSE 8080
-CMD ["/app/main"]
+CMD ["/newtab-site"]
