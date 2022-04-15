@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/psanford/memfs"
 	"github.com/chai2010/webp"
 	"github.com/nfnt/resize"
+	"github.com/psanford/memfs"
 )
 
 func createThumbnails(imagefs embed.FS, mfs *memfs.FS) error {
