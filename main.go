@@ -4,9 +4,6 @@ import (
 	"context"
 	"embed"
 	_ "embed"
-	_ "image/gif"
-	_ "image/jpeg"
-	_ "image/png"
 	"io"
 	"io/fs"
 	"log"
@@ -30,7 +27,7 @@ var staticfs embed.FS
 var mfs = memfs.New()
 
 func main() {
-	err := createThumbnails(imagefs, mfs)
+	err := moveThumbnails(imagefs, mfs)
 	if err != nil {
 		log.Fatalf("Error: %s", err)
 	}
