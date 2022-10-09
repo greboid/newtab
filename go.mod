@@ -1,6 +1,6 @@
 module github.com/greboid/newtab
 
-go 1.18
+go 1.19
 
 require (
 	github.com/gorilla/handlers v1.5.1
@@ -8,4 +8,4 @@ require (
 	github.com/psanford/memfs v0.0.0-20210214183328-a001468d78ef
 )
 
-require github.com/felixge/httpsnoop v1.0.2 // indirect
+require github.com/felixge/httpsnoop v1.0.3 // indirect
