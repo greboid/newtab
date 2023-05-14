@@ -12,5 +12,9 @@ jobs:
     secrets: inherit
   container:
     uses: greboid/.github/.github/workflows/docker.yml@master
+    with:
+      image: 'newtab'
+      registry: 'reg.g5d.dev'
+      preloginreg: true
     secrets: inherit
     needs: [test]
