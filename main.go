@@ -10,27 +10,16 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"strings"
 	"time"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/psanford/memfs"
 )
-
-//go:embed images
-var imagefs embed.FS
 
 //go:embed static
 var staticfs embed.FS
 
-var mfs = memfs.New()
-
 func main() {
-	err := moveThumbnails(imagefs, mfs)
-	if err != nil {
-		log.Fatalf("Error: %s", err)
-	}
 	staticFiles, err := fs.Sub(staticfs, "static")
 	if err != nil {
 		log.Fatalf("Error: %s", err)
@@ -39,7 +28,6 @@ func main() {
 	router.Use(handlers.ProxyHeaders)
 	router.Use(handlers.CompressHandler)
 	router.Use(NewLoggingHandler(os.Stdout))
-	router.PathPrefix("/thumbnails/").Handler(thumbnailHandler(http.StripPrefix("/thumbnails/", http.FileServer(http.FS(mfs)))))
 	router.PathPrefix("/").Handler(http.FileServer(http.FS(staticFiles)))
 
 	log.Print("Starting server.")
@@ -65,17 +53,4 @@ func NewLoggingHandler(dst io.Writer) func(http.Handler) http.Handler {
 	return func(h http.Handler) http.Handler {
 		return handlers.LoggingHandler(dst, h)
 	}
-}
-
-func thumbnailHandler(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		if strings.Contains(request.Header.Get("Accept"), "image/webp") {
-			webp := request.URL.Path + ".webp"
-			_, err := mfs.Open(strings.TrimPrefix(webp, "/thumbnails/"))
-			if err == nil {
-				request.URL.Path = webp
-			}
-		}
-		next.ServeHTTP(writer, request)
-	})
 }

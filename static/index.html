@@ -1,8 +1,83 @@
 <!DOCTYPE html>
 	<meta charset="utf-8" />
 	<title>New Tab</title>
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	<link href="/main.css" rel="stylesheet" type="text/css">
+	<link rel="icon" type="image/x-icon" href="data:image/vnd.microsoft.icon;base64,AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAD+/v7//v7+//7+/v/+/v7//v7+//n5+f/09PT/9fX1//X19f/09PT/+/v7//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//Pz8//X19f/6+vr//v7+//7+/v/+/v7//v7+//j4+P/09PT//f39//7+/v/+/v7//v7+//7+/v/+/v7/+/v7//f39//+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//b29v/8/Pz//v7+//7+/v/+/v7//f39//b29v/+/v7//v7+/+7u9v+8vNz/wMDf/7u73P/r6/X///////7+/v/+/v7/9fX1//7+/v/+/v7//v7+//X19f/+/v7//v7+//Dw9/+8vN3//Pz9//7+/v/+/v7/srLX//j4+//+/v7//v7+//39/f/29vb//v7+//7+/v/09PT//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//Pz+P/t7fb//v7+//7+/v/+/v7/9fX1//7+/v/5+fn/+vr6//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//T09P/+/v7/9fX1//7+/v///////v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/39/f/+/v7//X19f/9/f3//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7/9vb2//z8/P/i6Pj/9vb3//7+/v/+/v7//v7+//z8/f/+/v7//v7+//7+/v/19fn//v7+//7+/v/+/v7//v7+//T09P/+/v7/rLjn/8LN7f/+/v7//v7+//7+/v/z8/n//v7+//7+/v/+/v7/+/v8//7+/v/+/v7//v7+//7+/v/O2/X//v7+/+7x+v9fguL/vMju//39/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7//f7+//L0+/+st+T/kavt//7+/v/+/v7/oLXu/zpVw/+qvO7/6O78//z9/v/+/v7//v7+//v8/v/n7Pr/09v0/5am4f9ndsn/Sle3//P0+v/+/v7//v7+//z9/v+fsuv/RV/I/1xrw/+Vre3/YnfP/5Kl5f98leL/YnPJ/2R70/8xR7f/XHfU/9Xd9f/+/v7//v7+//7+/v/+/v7/+vz+/8HK7f9TZcT/Sli3/0xYt/9jds3/YnnT/zJLvP86SbL/larp/+jv/v/+/v7//v7+//7+/v/+/v7//v7+//7+/v/+/v7/5u/+/7/R+v+6yPH/usfw/6e88v+5xu7/2+D0//v8/v/+/v7//v7+//7+/v/+/v7/AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//w=="	/>
+	<style>
+		:root {
+			--background-colour: #fcfcfc;
+			--foreground-colour: #1c1c1c;
+			--input-color: black;
+			--input-border: #d6d6d6;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--background-colour: #1c1c1c;
+				--foreground-colour: #d6d6d6;
+				--input-background: #333333;
+				--input-color: #d6d6d6;
+				--input-border: #5b5b5b;
+			}
+		}
+
+		html, body {
+			background:  var(--background-colour);
+			color: var(--foreground-colour);
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			width: 100%;
+		}
+		.parent {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
+		.container {
+			width: 90%;
+			display: flex;
+			display: -webkit-flex;
+			flex-wrap: wrap;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			align-content: center;
+		}
+		.item {
+			flex: 0 0 auto;
+			margin: 16px;
+		}
+
+		svg {
+			width: 80px;
+		}
+		a {
+			display: inline-block;
+		}
+		.full-width {
+			width: 90%;
+		}
+		a {
+			color: var(--foreground-colour);
+			text-decoration: none;
+		}
+		input {
+			background-color: var(--input-background);
+			color: var(--input-color);
+			min-width: 100%;
+			max-width: 100%;
+			box-sizing : border-box;
+			padding: 3px 3px 3px 5px;
+			outline: 0 none;
+			margin-top: 2px;
+			margin-right: 6px;
+			margin-bottom: 16px;
+			border: 1px solid var(--input-border);
+		}
+	</style>
 	<div class="parent">
 		<div class="container">
 			<div class="item full-width">
@@ -14,15 +89,35 @@
 			</div>
 		</div>
 		<div class="container">
-			<a class="item" title="" href="https://app.fastmail.com"><img width="80" height="80" class="itemimage" alt="Fastmail" src="thumbnails/fastmail.jpg"></a>
-			<a class="item" title="" href="https://rss.greboid.com"><img width="80" height="80" class="itemimage" alt="RSS" src="thumbnails/rss.png"></a>
-			<a class="item" title="" href="https://instagram.com"><img width="80" height="80" class="itemimage" alt="Instagram" src="thumbnails/instagram.jpg"></a>
-			<a class="item" title="" href="https://imgur.com"><img width="80" height="80" class="itemimage" alt="Imgur" src="thumbnails/imgur.png"></a>
-		</div>
-		<div class="container">
-			<a class="item" title="" href="https://app.plex.tv"><img width="80" height="80" class="itemimage" alt="Plex" src="thumbnails/plex.png"></a>
-			<a class="item" title="" href="https://outlook.office.com/mail/"><img width="80" height="80" class="itemimage" alt="Work Email" src="thumbnails/owa.jpg"></a>
-			<a class="item" title="" href="https://netflix.com"><img width="80" height="80" class="itemimage" alt="Newflix" src="thumbnails/netflix.png"></a>
-			<a class="item" title="" href="https://open.spotify.com"><img width="80" height="80" class="itemimage" alt="Spotify" src="thumbnails/spotify.png"></a>
+			<a class="item" title="" href="https://app.fastmail.com">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><style>.st1{fill:#fff}</style><g id="Icon"><circle cx="512" cy="512" r="512" fill="#0067b9"/><path d="M680.8 400.8c21.1 31.9 33.4 70.1 33.4 111.2 0 111.7-90.5 202.2-202.2 202.2-69.8 0-131.3-35.3-167.6-89.1L299.6 655c46 68.2 124 113.1 212.4 113.1 141.4 0 256-114.6 256-256 0-52.1-15.6-100.6-42.4-141.1l-44.8 29.8zM309.8 512c0-111.7 90.5-202.2 202.2-202.2 70.6 0 132.7 36.2 168.8 91l44.8-29.9C679.8 301.7 601.2 256 512 256c-141.4 0-256 114.6-256 256 0 52.9 16.1 102.1 43.6 142.9l44.8-29.9c-21.8-32.2-34.6-71.1-34.6-113z" class="st1"/><path d="M390.3 593.1h234.8c4.7 0 8.6-3.8 8.6-8.6V430.9L390.3 593.1" class="st1"/><path d="M390.3 593.1c1-.6 1.3-.9 1.3-.9 0 .1-.6.5-1.3.9V430.9L512 512l-121.7 81.1" class="st1"/></g></svg>
+			</a>
+			<a class="item" title="" href="https://rss.greboid.com">
+				<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="Icons" version="1.1" viewBox="0 0 32 32"><style>.st29{fill:#f7981c}</style><path d="M6 21c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zM5.8 1c-1.2 0-2.5.1-4 .3-.4.1-.8.5-.8 1v5.1c0 .3.1.6.4.8s.5.3.8.2C3.4 8.2 4.6 8 5.8 8c10 0 18.1 8.1 18.1 18.1 0 1.2-.1 2.4-.4 3.6-.1.3 0 .6.2.8.2.2.5.4.8.4h5.1c.5 0 .9-.4 1-.8.2-1.4.3-2.7.3-4C31 12.3 19.7 1 5.8 1z" class="st29"/><path d="M5.9 11c-1.4 0-2.8.2-4.1.6-.4.1-.7.5-.7 1V18c0 .3.2.7.5.8.3.2.7.2 1 .1 1.1-.5 2.2-.8 3.4-.8 4.4 0 8 3.6 8 8 0 1.2-.3 2.3-.8 3.4-.1.3-.1.7.1 1 .2.3.5.5.8.5h5.5c.4 0 .8-.3 1-.7.4-1.4.6-2.8.6-4.1C21 17.8 14.2 11 5.9 11z" class="st29"/></svg>
+			</a>
+			<a class="item" title="" href="https://instagram.com">
+				<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 551 551"><linearGradient id="a" x1="275.5" x2="275.5" y1="4.6" y2="549.7" gradientTransform="matrix(1 0 0 -1 0 554)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e09b3d"/><stop offset=".3" stop-color="#c74c4d"/><stop offset=".6" stop-color="#c21975"/><stop offset="1" stop-color="#7024c4"/></linearGradient><path fill="url(#a)" d="M387 0H164A164 164 0 0 0 0 164v223c0 90 74 164 164 164h223c90 0 164-74 164-164V164C551 74 477 0 387 0zm109 387c0 60-49 109-109 109H164c-60 0-109-49-109-109V164c0-60 49-109 109-109h223c60 0 109 49 109 109v223z"/><linearGradient id="b" x1="275.5" x2="275.5" y1="4.6" y2="549.7" gradientTransform="matrix(1 0 0 -1 0 554)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e09b3d"/><stop offset=".3" stop-color="#c74c4d"/><stop offset=".6" stop-color="#c21975"/><stop offset="1" stop-color="#7024c4"/></linearGradient><path fill="url(#b)" d="M276 133a143 143 0 1 0 0 286 143 143 0 0 0 0-286zm0 230a87 87 0 1 1 0-175 87 87 0 0 1 0 175z"/><linearGradient id="c" x1="418.3" x2="418.3" y1="4.6" y2="549.7" gradientTransform="matrix(1 0 0 -1 0 554)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e09b3d"/><stop offset=".3" stop-color="#c74c4d"/><stop offset=".6" stop-color="#c21975"/><stop offset="1" stop-color="#7024c4"/></linearGradient><circle cx="418.3" cy="134.1" r="34.1" fill="url(#c)"/></svg>
+			</a>
+			<a class="item" title="" href="https://bsky.app/">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 530"><path fill="#1185fe" d="M136 44c66 50 138 151 164 205 26-54 98-155 164-205 48-36 126-64 126 25 0 18-10 149-16 170-21 74-96 93-163 81 117 20 147 86 82 153-122 125-176-32-189-72-3-8-4-11-4-8 0-3-1 0-4 8-13 40-67 197-189 72-65-67-35-133 82-153-67 12-142-7-163-81-6-21-16-152-16-170 0-89 78-61 126-25z"/></svg>
+			</a>
+			<a class="item" title="" href="https://imgur.com">
+				<svg xmlns="http://www.w3.org/2000/svg" aria-label="Imgur" viewBox="0 0 512 512"><rect width="512" height="512" fill="none" rx="15%"/><path stroke="#000" stroke-linecap="round" stroke-width="90" d="M256 211v219"/><circle cx="256" cy="91" r="53" fill="#89c623"/></svg>
+			</a>
+			<a class="item" title="" href="https://app.ynab.com">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><circle cx="512" cy="512" r="512" fill="#85c3e9"/><path fill="#fff" d="M678 472s3 1 2 3L560 659l-2 7v98c0 2-2 4-4 4h-84c-2 0-4-2-4-4v-98l-2-7-120-184c-1-2-1-3 2-3h98l6 3 60 103h4l60-103 6-3h98zm-46 121 4-1c43 0 36 41 34 56-15-3-56-11-41-52l2-3zm-244-1 5 1 2 3c15 41-26 49-41 52-2-15-9-56 34-56zm267-37 3-6c47-54 86 2 102 21-20 14-74 57-104-8l-1-7zm-285 0-2 7c-30 65-84 22-104 8 16-19 55-75 102-21l4 6zm327-61 2-5c26-46 66-13 81-2-13 13-46 53-80 12l-3-5zm-370 0-3 5c-34 41-67 1-79-12 14-11 54-44 80 2l2 5zm335-56-1-7c5-71 71-49 94-43-7 23-25 90-87 55-3-1-5-3-6-5zm-300 1-6 4c-62 35-80-32-87-55 23-6 89-28 94 43l-1 8zm293-66-5-1-3-5c-18-49 32-58 50-63 2 18 11 69-42 69zm-281-1-5 1c-53 0-44-51-42-69 18 5 68 14 50 63l-3 5zm138-41-6-3c-56-35-10-79 6-95 15 16 62 60 6 95l-6 3zm72 26h-6l-4-4c-34-48 19-72 37-82 7 19 30 72-27 86zm-138 0h-6c-57-14-34-67-27-86 18 10 71 33 37 82-1 3-3 4-4 4zm61 69c-43-29-7-66 5-80 12 14 48 51 5 80l-5 2-5-2zm70 31-7-1c-2-1-3-3-4-6-29-65 39-77 63-82 4 24 19 91-52 89zm-65 66-5-2c-43-30-7-66 5-80 12 14 48 50 5 80l-5 2zm-57-67-8 2c-71 1-55-66-51-90 24 5 91 17 63 82l-4 6z"/></svg>
+			</a>
+			<a class="item" title="" href="https://app.plex.tv">
+				<svg xmlns="http://www.w3.org/2000/svg" aria-label="Plex" viewBox="0 0 512 512"><rect width="512" height="512" fill="#282a2d" rx="15%"/><path fill="#e5a00d" d="M256 70H148l108 186-108 186h108l108-186z"/></svg>
+			</a>
+			<a class="item" title="" href="https://netflix.com">
+				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg2" viewBox="-50 0 222 222"><defs><path id="path4155" d="m-52-412-1 168v168l-14-39-18 374 27 76 23 1a1707 1707 0 0 1 131 11l1-380v-379H-52z" class="st0"/><path id="path4157" d="M-322-413v380l1 380 28-2a2496 2496 0 0 1 119-10c2 0 2-8 2-161l1-161 12 34 4 12 18-374-6-17-28-78-1-3h-150z" class="st0"/></defs><style>.st0{fill:#b1060f;stroke:#000}</style><g id="layer1" transform="translate(12 7)"><g id="g4182"><g id="g5747" transform="translate(82 114) scale(.29074)"><use xlink:href="#path4155" class="st0"/><use xlink:href="#path4157" class="st0"/><use xlink:href="#path4155" id="path5715" class="st0"/><use xlink:href="#path4157" id="path5717" class="st0"/><radialGradient id="path5719_1_" cx="18038" cy="-146.4" r="368.7" gradientTransform="matrix(.07072 -.02449 -.897 -2.5906 -1527 25)" gradientUnits="userSpaceOnUse"><stop offset="0"/><stop offset="1" stop-opacity="0"/></radialGradient><path id="path5719" fill="url(#path5719_1_)" d="M-322-413v213l150 399v-25l1-161 11 34 102 288 22 1a1707 1707 0 0 1 132 11l1-202-150-430v209l-14-39-77-217-27-78-1-3h-150z"/><path id="path5721" fill="#e50914" d="m-322-413 151 427v-1l11 34 102 288 22 1a1707 1707 0 0 1 132 11L-53-76l-14-39-77-217-27-78-1-3h-150z"/></g></g></g></svg>
+			</a>
+			<a class="item" title="" href="https://open.spotify.com">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#00DA5A" fill-rule="evenodd" d="M38.16 21.36c-7.68-4.56-20.52-5.04-27.84-2.76-1.2.36-2.4-.36-2.76-1.44-.36-1.2.36-2.4 1.44-2.76 8.52-2.52 22.56-2.04 31.44 3.24 1.08.6 1.44 2.04.84 3.12-.6.84-2.04 1.2-3.12.6m-.24 6.72c-.6.84-1.68 1.2-2.52.6-6.48-3.96-16.32-5.16-23.88-2.76-.96.24-2.04-.24-2.28-1.2-.24-.96.24-2.04 1.2-2.28 8.76-2.64 19.56-1.32 27 3.24.72.36 1.08 1.56.48 2.4m-2.88 6.6c-.48.72-1.32.96-2.04.48-5.64-3.48-12.72-4.2-21.12-2.28-.84.24-1.56-.36-1.8-1.08-.24-.84.36-1.56 1.08-1.8 9.12-2.04 17.04-1.2 23.28 2.64.84.36.96 1.32.6 2.04M24 0C10.8 0 0 10.8 0 24s10.8 24 24 24 24-10.8 24-24S37.32 0 24 0"/></svg>
+			</a>
+			<a class="item" title="" href="https://outlook.office.com/mail/">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#0072c6" d="M19.484 7.937v5.477l1.916 1.205a.489.489 0 0 0 .21 0l8.238-5.554a1.174 1.174 0 0 0-.959-1.128Z"/><path fill="#0072c6" d="m19.484 15.457 1.747 1.2a.522.522 0 0 0 .543 0c-.3.181 8.073-5.378 8.073-5.378v10.066a1.408 1.408 0 0 1-1.49 1.555h-8.874v-7.443ZM10.44 12.932a1.609 1.609 0 0 0-1.42.838 4.131 4.131 0 0 0-.526 2.218A4.05 4.05 0 0 0 9.02 18.2a1.6 1.6 0 0 0 2.771.022 4.014 4.014 0 0 0 .515-2.2 4.369 4.369 0 0 0-.5-2.281 1.536 1.536 0 0 0-1.366-.809Z"/><path fill="#0072c6" d="M2.153 5.155v21.427L18.453 30V2Zm10.908 14.336a3.231 3.231 0 0 1-2.7 1.361 3.19 3.19 0 0 1-2.64-1.318A5.459 5.459 0 0 1 6.706 16.1a5.868 5.868 0 0 1 1.036-3.616 3.267 3.267 0 0 1 2.744-1.384 3.116 3.116 0 0 1 2.61 1.321 5.639 5.639 0 0 1 1 3.484 5.763 5.763 0 0 1-1.035 3.586Z"/></svg>
+			</a>
 		</div>
 	</div>
