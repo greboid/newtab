@@ -6,7 +6,7 @@ COPY static /app/static/
 COPY main.go /app
 RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o main .
 
-FROM ghcr.io/greboid/dockerbase/nonroot:1.20250214.0
+FROM ghcr.io/greboid/dockerbase/nonroot:1.20250326.0
 WORKDIR /app
 COPY --from=builder --chown=65532:65532 /app/main /newtab-site
 EXPOSE 8080
